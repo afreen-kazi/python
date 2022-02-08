@@ -2,23 +2,23 @@ import re
 email_id = "afreen7kazi@forgeahead.co"
 
 
-# def fun(string):
-#     flag = False
-#     string1 = string.split('.')
-#     # print(string1)
-#     ext = string1[1]
-#     # ext_verify = bool(re.match(r"^[a-zA-Z]+$", ext))
-#     ext_verify = bool(re.match(r"^(\w{2,3})+$", ext))
-#     # print(ext_verify)
-#     username = string1[0]
-#     new_string = username.split('@')
-#     user = bool(re.match(r"^[a-zA-Z\d_]+[.-]*$", new_string[0]))
-#     # print(user)
-#     website = bool(re.match(r"[a-zA-Z\d]+$", new_string[1]))
-#     # print(website)
-#     if ext_verify == True and len(ext) == 3 and user == True and website == True:
-#         flag = True
-#     return flag
+def fun(string):
+    flag = False
+    string1 = string.split('.')
+    # print(string1)
+    ext = string1[1]
+    # ext_verify = bool(re.match(r"^[a-zA-Z]+$", ext))
+    ext_verify = bool(re.match(r"^(\w{2,3})+$", ext))
+    # print(ext_verify)
+    username = string1[0]
+    new_string = username.split('@')
+    user = bool(re.match(r"^[a-zA-Z\d_]+[.-]*$", new_string[0]))
+    # print(user)
+    website = bool(re.match(r"[a-zA-Z\d]+$", new_string[1]))
+    # print(website)
+    if ext_verify == True and len(ext) == 3 and user == True and website == True:
+        flag = True
+    return flag
 
 
 def fun(string):

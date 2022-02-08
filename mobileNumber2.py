@@ -12,3 +12,5 @@ for i in range(0, N):
         print("NO")
 
 # first occurrence of 7,8 or 9, followed by repeating \d => [0-9] 9 times (9 digit)
+
+function - call run time,
