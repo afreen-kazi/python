@@ -6,7 +6,7 @@ class MysqlAssignment:
         my_database = mysql.connector.connect(
             host="localhost",
             username="root",
-            password="RIffat1019*",
+            password="*******",
             database="mydatabase"
         )
     except:
