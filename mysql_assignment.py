@@ -8,42 +8,35 @@ class MysqlAssignment:
     """This is my Mysql Assignment given by my mentor Rushikesh
     which will insert, update, delete and read data from
     the respective tables"""
-    list1 = []
-    try:
-        my_db = mysql.connector.connect(
-            host="localhost",
-            username="root",
-            password="****",
-            database="mydatabase"
-        )
-    except ConnectionError:
-        print("the connection to the database failed")
-    my_cursor = my_db.cursor()
 
     def __init__(self):
-        print("This is a very basic initialization method")
+        try:
+            self.my_db = mysql.connector.connect(
+                host="localhost",
+                username="root",
+                password="RIffat1019*",
+                database="mydatabase"
+            )
+        except ConnectionError:
+            print("the connection to the database failed")
+        self.my_cursor = self.my_db.cursor()
+
+    @staticmethod
+    def basic_input():
+        """This method is fetching basic details from user"""
+        option_num = int(input("What would you like to perform: insert -> 1,  update -> 2, "
+                               "delete -> 3 or read -> 4? "))
+        table_name = input("In which table: customers -> C or products -> P ? ")
+        return option_num, table_name
 
     @instancemethod
     def read_customers_table(self):
         """This method is reading the customers tables"""
         sql_display_table1 = "SELECT * FROM customers"
-        MysqlAssignment.my_cursor.execute(sql_display_table1)
-        my_result1 = MysqlAssignment.my_cursor.fetchall()
+        self.my_cursor.execute(sql_display_table1)
+        my_result1 = self.my_cursor.fetchall()
         for x_values in my_result1:
             print(x_values)
-
-    @instancemethod
-    def basic_input(self):
-        """This method is fetching basic details from user"""
-        option_number = int(input("What would you like to perform: insert -> 1,  update -> 2, "
-                                  "delete -> 3 or read -> 4? "))
-        if (option_number < 1 or
-                option_number > 4):
-            print("Invalid input")
-            exit()
-        table_name = input("In which table: customers -> C or products -> P ? ")
-
-        return option_number, table_name
 
     @instancemethod
     def insert_method(self, table_name):
@@ -54,17 +47,17 @@ class MysqlAssignment:
             address = input("Enter Customer Address: ")
             sql = """INSERT INTO customers (cust_id, cust_name, cust_address) VALUES (%s, %s, %s)"""
             values = (key, name, address)
-            MysqlAssignment.my_cursor.execute(sql, values)
-            MysqlAssignment.my_db.commit()
-            print(MysqlAssignment.my_cursor.rowcount, "row inserted in customers table successfully")
+            self.my_cursor.execute(sql, values)
+            self.my_db.commit()
+            print(self.my_cursor.rowcount, "row inserted in customers table successfully")
         else:
             key = input("Enter Product ID: ")
             name = input("Enter Product Name: ")
             sql = """INSERT INTO products (prod_id, prod_name) VALUES (%s, %s)"""
             values = (key, name)
-            MysqlAssignment.my_cursor.execute(sql, values)
-            MysqlAssignment.my_db.commit()
-            print(MysqlAssignment.my_cursor.rowcount, "row inserted in products table successfully")
+            self.my_cursor.execute(sql, values)
+            self.my_db.commit()
+            print(self.my_cursor.rowcount, "row inserted in products table successfully")
 
     @instancemethod
     def update_method(self, table_name):
@@ -80,15 +73,15 @@ class MysqlAssignment:
                 new_field = input("Enter new address :")
                 sql = """UPDATE customers SET cust_address = %s WHERE cust_id = %s"""
             new_values = (new_field, key)
-            MysqlAssignment.my_cursor.execute(sql, new_values)
-            MysqlAssignment.my_db.commit()
+            self.my_cursor.execute(sql, new_values)
+            self.my_db.commit()
         else:
             key = input("Enter the correct ID of product whose data you want to update :")
             new_field = input("Enter the updated product name: ")
             sql = """UPDATE products SET prod_name = %s WHERE prod_id = %s"""
             new_values = (new_field, key)
-            MysqlAssignment.my_cursor.execute(sql, new_values)
-            MysqlAssignment.my_db.commit()
+            self.my_cursor.execute(sql, new_values)
+            self.my_db.commit()
 
     @instancemethod
     def delete_method(self, table_name):
@@ -97,23 +90,23 @@ class MysqlAssignment:
             key = input("Enter which ID to delete: ")
             sql = """DELETE FROM customers WHERE cust_id = %s"""
             value = (key,)
-            MysqlAssignment.my_cursor.execute(sql, value)
-            MysqlAssignment.my_db.commit()
-            print(MysqlAssignment.my_cursor.rowcount, "row of customers table deleted successfully")
+            self.my_cursor.execute(sql, value)
+            self.my_db.commit()
+            print(self.my_cursor.rowcount, "row of customers table deleted successfully")
         else:
             key = input("Enter which ID to delete: ")
             sql = """DELETE FROM products WHERE prod_id = %s"""
             value = (key,)
-            MysqlAssignment.my_cursor.execute(sql, value)
-            MysqlAssignment.my_db.commit()
-            print(MysqlAssignment.my_cursor.rowcount, "row of products table deleted successfully")
+            self.my_cursor.execute(sql, value)
+            self.my_db.commit()
+            print(self.my_cursor.rowcount, "row of products table deleted successfully")
 
     @instancemethod
     def read_products_table(self):
         """This method will read all the data from products table"""
         sql_display_table2 = "SELECT * FROM products"
-        MysqlAssignment.my_cursor.execute(sql_display_table2)
-        my_result2 = MysqlAssignment.my_cursor.fetchall()
+        self.my_cursor.execute(sql_display_table2)
+        my_result2 = self.my_cursor.fetchall()
         for x_values in my_result2:
             print(x_values)
 
@@ -121,14 +114,14 @@ class MysqlAssignment:
 sql_object = MysqlAssignment()
 option, table = sql_object.basic_input()
 
-if option == '1':
+if option == 1:
     if table == 'C':
         sql_object.insert_method(table)
         sql_object.read_customers_table()
     else:
         sql_object.insert_method(table)
         sql_object.read_products_table()
-elif option == '2':
+elif option == 2:
     if table == 'C':
         sql_object.read_customers_table()
         sql_object.update_method(table)
@@ -137,7 +130,7 @@ elif option == '2':
         sql_object.read_products_table()
         sql_object.update_method(table)
         sql_object.read_products_table()
-elif option == '3':
+elif option == 3:
     if table == 'C':
         sql_object.read_customers_table()
         sql_object.delete_method(table)
@@ -146,7 +139,7 @@ elif option == '3':
         sql_object.read_products_table()
         sql_object.delete_method(table)
         sql_object.read_products_table()
-elif option == '4':
+elif option == 4:
     if table == 'C':
         sql_object.read_customers_table()
     else:
